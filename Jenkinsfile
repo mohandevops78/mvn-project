@@ -1,0 +1,116 @@
+pipeline {
+  agent 'any'
+  tools {
+    maven 'mvn'
+  }
+
+  parameters {
+    choice(
+      name: 'Branch',
+      choices: ['Choose', 'main'],
+      description: 'Choose Branch'
+    )
+  }
+
+  stages {
+    stage('Intializing the project') {
+      steps {
+        echo 'Welcome to Intellipaat Labs' 
+      }
+    }
+    
+    stage('Cloning code') {
+      steps {
+        git branch: "${params.Branch}", url: 'https://github.com/mohandevops78/mvn-project.git'
+      }
+    }
+
+    stage('Analysing Commit Scanning') {
+      steps {
+          sh 'mvn test'
+          echo 'Commit Scanning competed'
+        }    
+      }
+
+    stage('Clean Previous Builds') {
+      steps {
+          
+                sh 'mvn clean'
+                echo 'Cleaned previous Build'
+            }    
+        }
+
+    stage('Building Code') {
+      steps {
+          sh 'mvn -Dmaven.test.failure.ignore=true package'
+          echo 'Build complited'
+        }
+      }
+
+    stage('Static Code Analysis') {
+      parallel {
+        stage('Checkstyle') {
+          steps {
+              sh 'mvn checkstyle:checkstyle'
+            }    
+          }
+
+        stage ('PMD') {
+          steps {
+              sh 'mvn pmd:pmd'
+            }
+          }
+
+        stage ('Find-Bugs') {
+          steps {
+              sh 'mvn findbugs:findbugs'
+            }
+          }
+      }
+    }
+     
+    stage ('Code Test Analysis') {
+      parallel {
+        stage ('Code Coverage') {
+          steps {
+              sh 'mvn cobertura:cobertura'
+            }
+          }
+      
+        stage ('Test Report') {
+          steps {
+              sh 'mvn surefire-report:report'
+            }
+          }
+      }    
+    }
+    stage ('Publishing Artifacts') {
+      steps {
+            nexusArtifactUploader artifacts: [
+              [
+                artifactId: 'app', 
+                classifier: '', 
+                file: 'target/demo-0.0.1-SNAPSHOT.jar', 
+                type: 'jar'
+              ]
+          ], 
+          credentialsId: 'nexus-creds', 
+          groupId: 'intellipaat.jenkins.maven', 
+          nexusUrl: '34.250.15.14:8081', 
+          nexusVersion: 'nexus3', 
+          protocol: 'http', 
+          repository: 'maven-app', 
+          version: '0.0.1-SNAPSHOT'
+        }
+      }
+  }
+
+  post {
+    always {
+      recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
+      recordIssues enabledForFailure: true, tool: checkStyle()
+      recordIssues enabledForFailure: true, tool: findBugs()
+      recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml ')
+    }
+  }
+}
