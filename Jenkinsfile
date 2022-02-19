@@ -59,7 +59,7 @@ pipeline {
       parallel {
         stage ('Code Coverage') {
           steps {
-              sh 'mvn cobertura:cobertura'
+              echo 'Running Code Coverage'
             }
           }
       
