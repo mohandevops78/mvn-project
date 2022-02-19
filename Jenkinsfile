@@ -4,24 +4,10 @@ pipeline {
     maven 'mvn'
   }
 
-  parameters {
-    choice(
-      name: 'Branch',
-      choices: ['Choose', 'main'],
-      description: 'Choose Branch'
-    )
-  }
-
   stages {
     stage('Intializing the project') {
       steps {
         echo 'Welcome to Intellipaat Labs' 
-      }
-    }
-    
-    stage('Cloning code') {
-      steps {
-        git branch: "${params.Branch}", url: 'https://github.com/mohandevops78/mvn-project.git'
       }
     }
 
