@@ -82,7 +82,7 @@ pipeline {
           ], 
           credentialsId: 'nexus-creds', 
           groupId: 'intellipaat.jenkins.maven', 
-          nexusUrl: '34.250.15.14:8081', 
+          nexusUrl: '54.75.69.104:8080', 
           nexusVersion: 'nexus3', 
           protocol: 'http', 
           repository: 'maven-app', 
