@@ -79,6 +79,9 @@ pipeline {
             echo "BuildNumber is ${BUILD_NUMBER}"
             echo "Build URL is ${BUILD_URL}"
             echo "Workspace is ${WORKSPACE}"
+          }
+        }
+      }
     }
     stage ('Publishing Artifacts') {
       steps {
