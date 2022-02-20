@@ -70,8 +70,8 @@ pipeline {
           }
       }
       stage ('Variables Testing' ) {
-        dir ('config-dev') {
-          steps {
+        steps {
+           dir ('config-dev') {
             echo "Branchname is ${BRANCH_NAME}"
             echo "Build ID is ${BUILD_ID}"
             echo "Path is ${PATH}"
