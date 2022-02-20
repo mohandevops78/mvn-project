@@ -69,6 +69,7 @@ pipeline {
             }
           }
       }
+      }
       stage ('Variables Testing' ) {
         steps {
            dir('config-dev') {
