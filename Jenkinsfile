@@ -71,11 +71,11 @@ pipeline {
       }
       stage ('Variables Testing' ) {
         steps {
-           dir ('config-dev') {
+           dir('config-dev') {
             echo "Branchname is ${BRANCH_NAME}"
             echo "Build ID is ${BUILD_ID}"
             echo "Path is ${PATH}"
-            echo "Workspace is ${}"
+            echo "Workspace is ${WORKSPACE}"
             echo "BuildNumber is ${BUILD_NUMBER}"
             echo "Build URL is ${BUILD_URL}"
             echo "Workspace is ${WORKSPACE}"
