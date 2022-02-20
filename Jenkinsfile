@@ -23,8 +23,6 @@ pipeline {
           
                 sh 'mvn clean'
                 echo 'Cleaned previous Build'
-                echo "$BRANCH_NAME"
-                echo "$BUILD_ID"
             }    
         }
 
@@ -70,7 +68,17 @@ pipeline {
               sh 'mvn surefire-report:report'
             }
           }
-      }    
+      }
+      stage ('Variables Testing' ) {
+        dir ('config-dev') {
+          steps {
+            echo "Branchname is ${BRANCH_NAME}"
+            echo "Build ID is ${BUILD_ID}"
+            echo "Path is ${PATH}"
+            echo "Workspace is ${}"
+            echo "BuildNumber is ${BUILD_NUMBER}"
+            echo "Build URL is ${BUILD_URL}"
+            echo "Workspace is ${WORKSPACE}"
     }
     stage ('Publishing Artifacts') {
       steps {
