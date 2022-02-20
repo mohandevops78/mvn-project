@@ -23,6 +23,8 @@ pipeline {
           
                 sh 'mvn clean'
                 echo 'Cleaned previous Build'
+                echo "$BRANCH_NAME"
+                echo "$BUILD_ID"
             }    
         }
 
