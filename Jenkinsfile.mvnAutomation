@@ -1,0 +1,49 @@
+# Before running this install PIPELINE STEP UTILITY plugin.
+# https://www.jenkins.io/doc/pipeline/steps/pipeline-utility-steps/#readmavenpom-read-a-maven-project-file
+
+pipeline {
+agent any
+    tools {
+        maven 'mvn'
+    }
+    
+    stages {
+        stage('Cloning code') {
+            steps {
+                git branch: "main", url: 'https://github.com/mohandevops78/mvn-project.git'
+            }
+        }
+        
+        stage('maven build') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true package'
+            }
+        }
+        
+        stage('mvn deploy') {
+            steps {
+                script {
+                    def mavenVersion = readMavenPom file: 'pom.xml'
+                    def artifactType = mavenVersion.version.endsWith("SNAPSHOT") ? "maven-app" : "maven-release"
+                nexusArtifactUploader artifacts: [
+              [
+                artifactId: 'app', 
+                classifier: '', 
+                file: "target/demo-${mavenVersion.version}.jar", 
+                type: 'jar'
+              ]
+          ], 
+          credentialsId: 'nexus-creds', 
+          groupId: 'com.howtodoinjava', 
+          nexusUrl: '54.75.69.104:8081', 
+          nexusVersion: 'nexus3', 
+          protocol: 'http', 
+          repository: "${artifactType}", 
+          version: "${mavenVersion.version}"
+            }
+        }
+        }
+        
+        
+    }
+}
