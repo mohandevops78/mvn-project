@@ -13,7 +13,7 @@ pipeline {
       stage ('Working on Workspace') {
           steps {
             sh 'ls -al'
-            sh "mkdir ${WORKSPACE}/src/test"
+            sh "mkdir ${WORKSPACE}/src/mohan"
           }
       }
   }
