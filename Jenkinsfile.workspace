@@ -3,6 +3,7 @@ pipeline {
   tools {
     maven 'mvn'
   }
+  
   stages {
       stage ('ECHO Workspace') {
           steps {
@@ -14,6 +15,9 @@ pipeline {
           steps {
             sh 'ls -al'
             sh "mkdir ${WORKSPACE}/src/test"
+            sh "cd ${WORKSPACE}/src/"
+            sh 'pwd'
+            sh 'ls -al'
           }
       }
   }
