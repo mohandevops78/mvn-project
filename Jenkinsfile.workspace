@@ -1,0 +1,20 @@
+pipeline {
+  agent 'any'
+  tools {
+    maven 'mvn'
+  }
+  stages {
+      stage ('ECHO Workspace') {
+          steps {
+            echo 'Testing Workspace here'
+            echo "Workspace is ${WORKSPACE}"
+          }
+      }
+      stage ('Working on Workspace') {
+          steps {
+            sh 'ls -al'
+            sh "mkdir ${WORKSPACE}/src/mohan"
+          }
+      }
+  }
+}

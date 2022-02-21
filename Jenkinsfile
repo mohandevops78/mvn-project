@@ -68,7 +68,20 @@ pipeline {
               sh 'mvn surefire-report:report'
             }
           }
-      }    
+      }
+      }
+      stage ('Variables Testing' ) {
+        steps {
+           dir('config-dev') {
+            echo "Branchname is ${BRANCH_NAME}"
+            echo "Build ID is ${BUILD_ID}"
+            echo "Path is ${PATH}"
+            echo "Workspace is ${WORKSPACE}"
+            echo "BuildNumber is ${BUILD_NUMBER}"
+            echo "Build URL is ${BUILD_URL}"
+            echo "Workspace is ${WORKSPACE}"
+          }
+      }
     }
     stage ('Publishing Artifacts') {
       steps {
@@ -76,7 +89,7 @@ pipeline {
               [
                 artifactId: 'app', 
                 classifier: '', 
-                file: 'target/demo-0.0.1-SNAPSHOT.jar', 
+                file: 'target/demo-0.0.1.jar', 
                 type: 'jar'
               ]
           ], 
@@ -85,8 +98,8 @@ pipeline {
           nexusUrl: '54.75.69.104:8081', 
           nexusVersion: 'nexus3', 
           protocol: 'http', 
-          repository: 'maven-app', 
-          version: '0.0.1-SNAPSHOT'
+          repository: 'maven-releases', 
+          version: '0.0.1'
         }
       }
   }
