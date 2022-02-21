@@ -19,6 +19,11 @@ pipeline {
             sh "cd ${WORKSPACE}/src/"
             sh 'pwd'
             sh 'ls -al'
+            sh '''
+            cd ${WORKSPACE}/src/
+            pwd
+            ls -al
+            '''
           }
       }
   }
