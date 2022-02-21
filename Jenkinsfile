@@ -89,7 +89,7 @@ pipeline {
               [
                 artifactId: 'app', 
                 classifier: '', 
-                file: 'target/demo-0.0.1-SNAPSHOT.jar', 
+                file: 'target/demo-0.0.1.jar', 
                 type: 'jar'
               ]
           ], 
@@ -98,8 +98,8 @@ pipeline {
           nexusUrl: '54.75.69.104:8081', 
           nexusVersion: 'nexus3', 
           protocol: 'http', 
-          repository: 'maven-app', 
-          version: '0.0.1-SNAPSHOT'
+          repository: 'maven-releases', 
+          version: '0.0.1'
         }
       }
   }
