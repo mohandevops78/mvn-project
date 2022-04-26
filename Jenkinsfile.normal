@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Code Clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/mohandevops78/mvn-project.git'
+                echo 'Cloning the Code Here'
+            }
+        }
+        stage('Code Build') {
+            steps {
+                sleep 10
+                echo "Building Source Code"
+            }
+        }
+        stage('Code Test') {
+            steps {
+                sleep 10
+                echo "Testing Build Code"
+            }
+        }
+        stage('Code Publish') {
+            steps {
+                sleep 10
+                echo "Published Build Code"
+            }
+        }
+    }
+}
